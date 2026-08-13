@@ -1,0 +1,31 @@
+{
+ "tag": "preflight_4x7_B2",
+ "git_sha": "9636b187820bf21c2c2cec4da52f487bfab6c726",
+ "argv": [
+  "eager",
+  "--n",
+  "4",
+  "--m",
+  "7",
+  "--B",
+  "2",
+  "--time",
+  "300",
+  "--tag",
+  "preflight_4x7_B2"
+ ],
+ "ts": "2026-08-13T16:29:15Z",
+ "n": 4,
+ "m": 7,
+ "B": 2,
+ "lo": 0,
+ "relation": "efx",
+ "restrictions": "rowcol",
+ "lex": true,
+ "build_s": 0.3696324825286865,
+ "clauses": 16384,
+ "status": "INFEASIBLE",
+ "wall": 5.432151349000001,
+ "conflicts": 2706,
+ "branches": 221030
+}
