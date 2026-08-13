@@ -1,0 +1,10 @@
+{
+ "tag": "real_4x7_cvc5",
+ "n": 4,
+ "m": 7,
+ "solver": "cvc5",
+ "status": "unknown",
+ "wall": 3900,
+ "note": "killed past its 3000s cap (cvc5 tlimit did not fire); honest UNKNOWN",
+ "ts": "2026-08-13T21:17:12Z"
+}

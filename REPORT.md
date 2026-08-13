@@ -131,7 +131,7 @@ lemma.
 | 2 | 4..6 | UNSAT 0.03–2.6 s | UNSAT | Plaut–Roughgarden n=2, reproduced over ℝ |
 | 3 | 4..6 | UNSAT 0.1–88 s | UNSAT | CGM/Mahara rungs over ℝ |
 | 4 | 6 | **UNSAT 73 s** | **UNSAT 391 s** | m = n+2 for four agents over ℝ, self-contained |
-| 4 | 7 | UNKNOWN at 3000 s (224k conflicts) | (see below) | m = n+3 over ℝ — overnight target |
+| 4 | 7 | UNKNOWN at 3000 s (224k conflicts) | UNKNOWN (cut past cap) | m = n+3 over ℝ — overnight target |
 
 Measured engine facts: default z3 tactics stall even on (3,6); the working
 configuration is `smt.arith.solver=2` + the positivity skeleton + monotone
@@ -201,6 +201,20 @@ give the allocator balancing freedom), best counts staying enormous
 ((4;4+4+4): 22,032 after 26.6k evals; (4;5+5+5): 148,740).  Both the typed
 UNSAT certificates and this heuristic agree that the "few types" anatomy
 of the chores counterexample actively favors EFX for goods.
+
+## Campaign 2 conclusion
+
+Still no counterexample — and the negative evidence is now qualitatively
+stronger than campaign 1's: value-bound-free real certificates up to
+(4,6) with two independent solvers agreeing on committed .smt2 artifacts;
+thirteen typed certificates reaching m = 15 and n = 6 at sizes flat
+methods cannot touch; a local rigidity certificate around the best known
+near-miss; and two falsified hunt heuristics that positively localize
+where a counterexample must live if it exists: mixed value scales
+(epsilon-goods essential), many distinct column types, every good
+pivotal.  Overnight targets, in order: `efx/smt/efx_4x7.smt2` (z3,
+several hours), `frontier_4x8_B3_support4` config (CP-SAT, now
+conflict-active), `efx/smt/efx_4x8.smt2`.
 
 ## Integer CP-SAT delta measurements
 

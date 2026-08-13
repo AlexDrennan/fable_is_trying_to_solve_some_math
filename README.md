@@ -42,7 +42,16 @@ problem. Expected outcome is negative certificates, and that is what
 - `efx/solve.py` — `controls` (fixed-V consistency between encoder and
   verifier, EF SAT control, theorem UNSAT controls), `eager`, `cegar`.
 - `efx/search.py` — simulated annealing minimizing the number of EFX
-  allocations, evaluated through the C verifier.
+  allocations, evaluated through the C verifier (flat and typed modes,
+  optional lower value bound).
+- `efx/smt_encode.py` — QF_LRA SMT-LIB2 emitter (value-bound-free real
+  certificates), z3/cvc5 runners, structural checker, mutation gates; the
+  committed `efx/smt/*.smt2` files are the theorem objects.
+- `efx/typed.py` — typed-goods collapse (t good types with multiplicities):
+  count-matrix verifier with the exact multinomial-weighted count identity,
+  CP-SAT encoder reaching m = 12–15 exactly.
+- `efx/polish.py` — ball-CEGAR around a near-miss at refined lattice
+  scales; produces counterexamples or local-rigidity certificates.
 - `efx/runs/` — one JSON record per run (committed).
 - `efx/candidates/` — near-misses; a confirmed counterexample would land
   here in the site's JSON format.
