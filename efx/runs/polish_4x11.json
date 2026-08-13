@@ -1,12 +1,12 @@
 {
  "tag": "polish_4x11",
- "git_sha": "6c294b4e473dc5c8b7bc3d2db245d8318977037e",
+ "git_sha": "405547cfae16bbc3e10545155fbbd9ddd61a1c4a",
  "start": "efx/runs/sa_4x11_s2.json",
  "results": [
   {
    "scale": 10,
    "r": 1,
-   "status": "MODEL_INVALID",
+   "status": "RIGID",
    "iters": 2,
    "kills": 12,
    "birth_log": [
@@ -179,7 +179,7 @@
   {
    "scale": 10,
    "r": 2,
-   "status": "MODEL_INVALID",
+   "status": "RIGID",
    "iters": 2,
    "kills": 12,
    "birth_log": [
@@ -352,7 +352,7 @@
   {
    "scale": 10,
    "r": 3,
-   "status": "MODEL_INVALID",
+   "status": "RIGID",
    "iters": 2,
    "kills": 12,
    "birth_log": [
@@ -525,7 +525,7 @@
   {
    "scale": 10,
    "r": 5,
-   "status": "MODEL_INVALID",
+   "status": "RIGID",
    "iters": 2,
    "kills": 21,
    "birth_log": [
@@ -750,7 +750,7 @@
   {
    "scale": 10,
    "r": 9,
-   "status": "MODEL_INVALID",
+   "status": "RIGID",
    "iters": 2,
    "kills": 24,
    "birth_log": [
@@ -975,7 +975,7 @@
   {
    "scale": 100,
    "r": 10,
-   "status": "MODEL_INVALID",
+   "status": "RIGID",
    "iters": 2,
    "kills": 12,
    "birth_log": [
@@ -1148,7 +1148,7 @@
   {
    "scale": 100,
    "r": 30,
-   "status": "MODEL_INVALID",
+   "status": "RIGID",
    "iters": 2,
    "kills": 12,
    "birth_log": [
@@ -1321,7 +1321,7 @@
   {
    "scale": 100,
    "r": 99,
-   "status": "MODEL_INVALID",
+   "status": "RIGID",
    "iters": 2,
    "kills": 24,
    "birth_log": [

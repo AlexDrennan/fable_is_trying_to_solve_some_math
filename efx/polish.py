@@ -106,7 +106,8 @@ class BallModel:
 
     def solve(self, time_limit, hint=None, workers=2):
         if hint is not None:
-            for i in range(self.n):
+            self.model.ClearHints()   # re-hinting the same model otherwise
+            for i in range(self.n):   # makes the proto invalid
                 for g in range(self.m):
                     self.model.AddHint(self.W[i][g], int(hint[i][g]))
         s = cp_model.CpSolver()
