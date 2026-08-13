@@ -1,0 +1,22 @@
+{
+ "tag": "real_2x4",
+ "git_sha": "aa26f453a60ab8f8b6648ed409869f5e118897b6",
+ "ts": "2026-08-13T19:58:05Z",
+ "n": 2,
+ "m": 4,
+ "z3": {
+  "solver": "z3-arith2",
+  "status": "unsat",
+  "wall": 0.06629681587219238,
+  "conflicts": 59,
+  "decisions": 218
+ },
+ "cvc5": {
+  "solver": "cvc5",
+  "status": "unsat",
+  "wall": 0.1010737419128418
+ },
+ "status": "z3:unsat/cvc5:unsat",
+ "wall": 0.16737055778503418,
+ "file": "/home/user/fable_is_trying_to_solve_some_math/efx/smt/efx_2x4.smt2"
+}

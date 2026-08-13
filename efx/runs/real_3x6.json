@@ -1,0 +1,22 @@
+{
+ "tag": "real_3x6",
+ "git_sha": "aa26f453a60ab8f8b6648ed409869f5e118897b6",
+ "ts": "2026-08-13T20:03:28Z",
+ "n": 3,
+ "m": 6,
+ "z3": {
+  "solver": "z3-arith2",
+  "status": "unsat",
+  "wall": 57.43651056289673,
+  "conflicts": 11396,
+  "decisions": 29763
+ },
+ "cvc5": {
+  "solver": "cvc5",
+  "status": "unsat",
+  "wall": 239.84338760375977
+ },
+ "status": "z3:unsat/cvc5:unsat",
+ "wall": 297.2798981666565,
+ "file": "/home/user/fable_is_trying_to_solve_some_math/efx/smt/efx_3x6.smt2"
+}

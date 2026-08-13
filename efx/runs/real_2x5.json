@@ -1,0 +1,22 @@
+{
+ "tag": "real_2x5",
+ "git_sha": "aa26f453a60ab8f8b6648ed409869f5e118897b6",
+ "ts": "2026-08-13T19:58:06Z",
+ "n": 2,
+ "m": 5,
+ "z3": {
+  "solver": "z3-arith2",
+  "status": "unsat",
+  "wall": 0.2866363525390625,
+  "conflicts": 120,
+  "decisions": 1880
+ },
+ "cvc5": {
+  "solver": "cvc5",
+  "status": "unsat",
+  "wall": 1.3883867263793945
+ },
+ "status": "z3:unsat/cvc5:unsat",
+ "wall": 1.675023078918457,
+ "file": "/home/user/fable_is_trying_to_solve_some_math/efx/smt/efx_2x5.smt2"
+}
