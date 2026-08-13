@@ -54,6 +54,7 @@ agent/good relabeling.
 | 4 | 7 | 0..2 | UNSAT (control, m=n+3) | 5.4 s | `preflight_4x7_B2` |
 | 4 | 8 | 0..2 | **UNSAT — new certificate** | 33 s | `frontier_4x8_B2` |
 | 4 | 8 | 0..3 | **UNKNOWN** at 600 s cap | 600 s | `frontier_4x8_B3` |
+| 4 | 9 | 0..2 | **UNKNOWN** at 300 s cap | 300 s | `frontier_4x9_B2` |
 
 (4,8) is the first size not covered by any existence theorem (m = n+4), and
 values {0,1,2} are outside the bivalued existence theorem, so the B=2 row is
@@ -83,10 +84,10 @@ every published attempt (and this one) stops.
 No counterexample was found — consistent with the standing conjecture that
 EFX allocations always exist for additive valuations, and with the 2026
 monotone-valuations counterexample relying essentially on complementarity.
-Concrete new evidence from this campaign: verified UNSAT certificates up to
-(4,7) values ≤ 2 within seconds, reproduction of three existence theorems by
-an independent method, and a (4,11) instance with only 12 EFX allocations
-out of 4.19 M. Nothing here is submittable to the site (a submission must
+Concrete new evidence from this campaign: a verified UNSAT certificate at
+the first theorem-free size — (4,8), values in {0,1,2} — reproduction of
+three existence theorems by an independent method, and a (4,11) instance
+with only 12 EFX allocations out of 4.19 M. Nothing here is submittable to the site (a submission must
 have zero EFX allocations); the honest deliverable is this toolchain and
 these certificates.
 
