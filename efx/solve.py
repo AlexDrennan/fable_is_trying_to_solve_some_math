@@ -51,8 +51,10 @@ def record(tag, payload):
     return payload
 
 
-def build(n, m, B, lo, relation, restrictions, lex, eager):
-    enc = EFXEncoder(n, m, B, lo=lo, relation=relation)
+def build(n, m, B, lo, relation, restrictions, lex, eager,
+          pos_skeleton=False, mono=False):
+    enc = EFXEncoder(n, m, B, lo=lo, relation=relation,
+                     pos_skeleton=pos_skeleton)
     if lex:
         enc.add_double_lex()
     if "rowcol" in restrictions:
@@ -61,6 +63,8 @@ def build(n, m, B, lo, relation, restrictions, lex, eager):
         enc.add_support_at_least(4)
     if eager:
         enc.add_all_allocs()
+        if mono:
+            enc.add_monotone_implications()
     return enc
 
 
@@ -160,7 +164,8 @@ def run_eager(args):
     t0 = time.time()
     enc = build(args.n, args.m, args.B, args.lo, args.relation,
                 args.restrictions.split(",") if args.restrictions else [],
-                lex=not args.no_lex, eager=True)
+                lex=not args.no_lex, eager=True,
+                pos_skeleton=args.pos_skeleton, mono=args.mono)
     build_s = time.time() - t0
     print(f"model built in {build_s:.0f}s: {enc.clauses} allocation clauses, "
           f"{len(enc._viol)} viol lits, {len(enc._bsum)} bsums")
@@ -248,6 +253,8 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--seed-clauses", type=int, default=2000)
     ap.add_argument("--batch", type=int, default=1000)
+    ap.add_argument("--pos-skeleton", action="store_true")
+    ap.add_argument("--mono", action="store_true")
     ap.add_argument("--tag", default="run")
     args = ap.parse_args()
     if args.mode == "controls":

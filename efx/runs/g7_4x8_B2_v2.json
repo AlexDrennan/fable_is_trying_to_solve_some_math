@@ -1,0 +1,33 @@
+{
+ "tag": "g7_4x8_B2_v2",
+ "git_sha": "ff6771e04dbe9b3f9824355db523857cf0a2f9da",
+ "argv": [
+  "eager",
+  "--n",
+  "4",
+  "--m",
+  "8",
+  "--B",
+  "2",
+  "--time",
+  "240",
+  "--pos-skeleton",
+  "--mono",
+  "--tag",
+  "g7_4x8_B2_v2"
+ ],
+ "ts": "2026-08-13T20:10:11Z",
+ "n": 4,
+ "m": 8,
+ "B": 2,
+ "lo": 0,
+ "relation": "efx",
+ "restrictions": "rowcol",
+ "lex": true,
+ "build_s": 2.6815037727355957,
+ "clauses": 65536,
+ "status": "INFEASIBLE",
+ "wall": 139.59158738000002,
+ "conflicts": 5871,
+ "branches": 110434
+}

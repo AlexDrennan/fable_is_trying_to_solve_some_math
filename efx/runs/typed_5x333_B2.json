@@ -1,0 +1,21 @@
+{
+ "tag": "typed_5x333_B2",
+ "git_sha": "ff6771e04dbe9b3f9824355db523857cf0a2f9da",
+ "ts": "2026-08-13T20:08:10Z",
+ "n": 5,
+ "c": [
+  3,
+  3,
+  3
+ ],
+ "m": 9,
+ "B": 2,
+ "lo": 0,
+ "build_s": 1.4325628280639648,
+ "clauses": 42875,
+ "viol_lits": 4680,
+ "scope": "no counterexample with column multiset exactly [3, 3, 3] types x multiplicities, values in [0,2], all rows/types positively valued",
+ "status": "INFEASIBLE",
+ "wall": 3.536406905,
+ "conflicts": 0
+}

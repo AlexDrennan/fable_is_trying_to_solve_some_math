@@ -58,10 +58,11 @@ def bits(mask):
 
 
 class EFXEncoder:
-    def __init__(self, n, m, B, lo=0, relation="efx"):
+    def __init__(self, n, m, B, lo=0, relation="efx", pos_skeleton=False):
         assert B >= 1 and 0 <= lo <= B
         self.n, self.m, self.B, self.lo = n, m, B, lo
         self.relation = relation
+        self.pos_skeleton = pos_skeleton  # wire hp/sel to full pos reification
         self.model = cp_model.CpModel()
         self.V = [[self.model.NewIntVar(lo, B, f"V_{i}_{g}") for g in range(m)]
                   for i in range(n)]
@@ -100,13 +101,24 @@ class EFXEncoder:
         if r is None:
             mp = self.model.NewIntVar(1, self.B, f"mp_{i}_{T:x}")
             hp = self.model.NewBoolVar(f"hp_{i}_{T:x}")
+            pos = self.pos() if self.pos_skeleton else None
             sels = []
             for g in bits(T):
                 sl = self.model.NewBoolVar(f"sel_{i}_{T:x}_{g}")
                 self.model.Add(self.V[i][g] >= 1).OnlyEnforceIf(sl)
                 self.model.Add(self.V[i][g] <= mp).OnlyEnforceIf(sl)
+                if pos is not None:
+                    self.model.AddImplication(sl, pos[i][g])
                 sels.append(sl)
             self.model.AddBoolOr(sels).OnlyEnforceIf(hp)
+            if pos is not None:
+                # hp <=> OR pos over T: gives the SAT core the full Boolean
+                # zero-pattern (measured to matter over the reals; harmless
+                # and flag-gated here)
+                self.model.AddBoolOr([pos[i][g] for g in bits(T)]
+                                     ).OnlyEnforceIf(hp)
+                for g in bits(T):
+                    self.model.AddImplication(pos[i][g], hp)
             r = (mp, hp)
             self._mp[key] = r
         return r
@@ -153,6 +165,29 @@ class EFXEncoder:
             if d == m:
                 break
             alloc[d] += 1
+
+    def add_monotone_implications(self):
+        """Binary clauses entailed by the verifier's pruning lemma:
+        viol[i][S+g][T] => viol[i][S][T] (values are nonnegative) and
+        viol[i][S][T] => viol[i][S][T+g] (v_i(T) - minpos_i(T) is
+        nondecreasing in T).  Sound: a true counterexample's actual
+        violation indicators satisfy both.  Call after eager clause
+        construction."""
+        added = 0
+        for (i, S, T) in list(self._viol):
+            free = ((1 << self.m) - 1) & ~(S | T)
+            for g in bits(free):
+                up_s = (i, S | (1 << g), T)
+                if up_s in self._viol:
+                    self.model.AddImplication(self._viol[up_s],
+                                              self._viol[(i, S, T)])
+                    added += 1
+                up_t = (i, S, T | (1 << g))
+                if up_t in self._viol:
+                    self.model.AddImplication(self._viol[(i, S, T)],
+                                              self._viol[up_t])
+                    added += 1
+        return added
 
     # -- symmetry breaking and restrictions ---------------------------------
     def _lex_le(self, xs, ys):
