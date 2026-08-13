@@ -194,8 +194,13 @@ are structurally necessary for any counterexample:
 | (4,10), values ∈ [64,127] | 2,997 | 591 |
 | (4,11), values ∈ [64,127] | **17,811** | **12** |
 
-Typed SA slices probe the m = 12–15 shapes heuristically at B = 1000, far
-beyond the exact runs' value bounds (results below).
+Typed SA slices probed the m = 12–15 shapes heuristically at B = 1000, far
+beyond the exact runs' value bounds — and corroborated the exact picture:
+few-type instances are where EFX existence is *easiest* (duplicate goods
+give the allocator balancing freedom), best counts staying enormous
+((4;4+4+4): 22,032 after 26.6k evals; (4;5+5+5): 148,740).  Both the typed
+UNSAT certificates and this heuristic agree that the "few types" anatomy
+of the chores counterexample actively favors EFX for goods.
 
 ## Integer CP-SAT delta measurements
 
