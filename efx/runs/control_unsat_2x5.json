@@ -1,0 +1,15 @@
+{
+ "tag": "control_unsat_2x5",
+ "git_sha": "899ee31ea65adf87b2969696a84e4587debbbfe4",
+ "argv": [
+  "controls"
+ ],
+ "ts": "2026-08-13T16:28:35Z",
+ "n": 2,
+ "m": 5,
+ "B": 3,
+ "status": "INFEASIBLE",
+ "wall": 0.031563649,
+ "conflicts": 49,
+ "branches": 1374
+}
