@@ -25,13 +25,46 @@ import native
 CAND = os.path.join(os.path.dirname(os.path.abspath(__file__)), "candidates")
 RUNS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "runs")
 
+# typed mode: state is the n x t type-value matrix W; evaluation expands it
+# to the flat matrix (identical columns per type) — see typed.py
+TYPES = None
+
+
+def to_flat(V):
+    if TYPES is None:
+        return V
+    cols = [k for k, ck in enumerate(TYPES) for _ in range(ck)]
+    return [[row[k] for k in cols] for row in V]
+
 
 def energy(V, cap):
-    r = native.verify(V, tau=1, cap=cap)
+    r = native.verify(to_flat(V), tau=1, cap=cap)
     if r["aborted"]:
         return r["count"] + 1.0, r          # lower bound; enough to reject
     frac = r["sum_slack"] / (r["sum_slack"] + 1.0)
     return r["count"] + frac, r
+
+
+def clampf(x, lo, B):
+    return max(lo, min(B, x))
+
+
+def init_nearmiss(rng, n, m, B, lo):
+    """V*-inspired: one near-flat agent, one universally-big column,
+    a few epsilon goods, rest random."""
+    V = [[rng.randint(max(lo, B // 4), B) for _ in range(m)]
+         for _ in range(n)]
+    flat = rng.randrange(n)
+    base = rng.randint(B // 3, 2 * B // 3)
+    V[flat] = [base + rng.randint(-2, 2) for _ in range(m)]
+    gbig = rng.randrange(m)
+    for i in range(n):
+        V[i][gbig] = rng.randint(9 * B // 10, B)
+    for _ in range(rng.randint(2, 3)):      # epsilon goods
+        g = rng.randrange(m)
+        for i in range(n):
+            V[i][g] = clampf(rng.randint(1, max(2, B // 100)), lo, B)
+    return [[clampf(v, lo, B) for v in row] for row in V]
 
 
 def init_matrix(rng, n, m, B, kind):
@@ -91,13 +124,29 @@ def main():
     ap.add_argument("--n", type=int, required=True)
     ap.add_argument("--m", type=int, required=True)
     ap.add_argument("--B", type=int, default=1000)
+    ap.add_argument("--lo", type=int, default=0,
+                    help="lower bound for values (Archimedean-middle runs)")
+    ap.add_argument("--types", default=None,
+                    help="comma multiplicities: typed SA over W (n x t)")
+    ap.add_argument("--init-file", default=None,
+                    help="runs/*.json with best_V/V to seed the first restart")
     ap.add_argument("--seconds", type=float, default=420)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--tag", default=None)
     args = ap.parse_args()
-    tag = args.tag or f"sa_{args.n}x{args.m}_s{args.seed}"
+    global TYPES
+    if args.types:
+        TYPES = tuple(int(x) for x in args.types.split(","))
+    tag = args.tag or (f"sa_{args.n}x{args.m}_s{args.seed}" if not TYPES else
+                       f"sa_typed_{args.n}x{'-'.join(map(str, TYPES))}_s{args.seed}")
     rng = random.Random(args.seed)
-    n, m, B = args.n, args.m, args.B
+    n, B = args.n, args.B
+    m = len(TYPES) if TYPES else args.m   # state width (t in typed mode)
+    seed_V = None
+    if args.init_file:
+        with open(args.init_file) as fh:
+            rec = json.load(fh)
+        seed_V = rec.get("best_V") or rec.get("V") or rec.get("W")
 
     best_E, best_V, best_r = math.inf, None, None
     t_end = time.time() + args.seconds
@@ -105,8 +154,16 @@ def main():
     restarts = -1
     while time.time() < t_end:
         restarts += 1
-        kind = ["random", "identical", "favorites", "bivalued"][restarts % 4]
-        V = init_matrix(rng, n, m, B, kind)
+        if seed_V is not None and restarts == 0:
+            V = [row[:] for row in seed_V]
+        elif restarts % 5 == 4:
+            V = init_nearmiss(rng, n, m, B, args.lo)
+        else:
+            V = init_matrix(rng, n, m, B, ["random", "identical",
+                                           "favorites", "bivalued"
+                                           ][restarts % 4])
+        if args.lo:
+            V = [[clampf(v, args.lo, B) for v in row] for row in V]
         E, r = energy(V, cap=0)
         evals += 1
         T0 = max(4.0, E * 0.05)
@@ -114,6 +171,8 @@ def main():
         stall = 0
         while time.time() < t_end and stall < 3000:
             W = mutate(rng, V, B)
+            if args.lo:
+                W = [[clampf(v, args.lo, B) for v in row] for row in W]
             cap = int(E) + 1
             EW, rW = energy(W, cap)
             evals += 1

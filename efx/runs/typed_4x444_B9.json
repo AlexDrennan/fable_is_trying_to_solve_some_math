@@ -1,0 +1,21 @@
+{
+ "tag": "typed_4x444_B9",
+ "git_sha": "8c6cca2577d81209dd5a23555253d56dc67f2cfa",
+ "ts": "2026-08-13T20:11:12Z",
+ "n": 4,
+ "c": [
+  4,
+  4,
+  4
+ ],
+ "m": 12,
+ "B": 9,
+ "lo": 0,
+ "build_s": 1.6861066818237305,
+ "clauses": 42875,
+ "viol_lits": 13000,
+ "scope": "no counterexample with column multiset exactly [4, 4, 4] types x multiplicities, values in [0,9], all rows/types positively valued",
+ "status": "INFEASIBLE",
+ "wall": 0.40349204200000005,
+ "conflicts": 0
+}
