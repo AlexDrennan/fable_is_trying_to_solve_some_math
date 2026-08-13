@@ -1,0 +1,31 @@
+{
+ "tag": "frontier_4x8_B2",
+ "git_sha": "2ff209e408c7d3f1a5a5738524234be50c132a27",
+ "argv": [
+  "eager",
+  "--n",
+  "4",
+  "--m",
+  "8",
+  "--B",
+  "2",
+  "--time",
+  "600",
+  "--tag",
+  "frontier_4x8_B2"
+ ],
+ "ts": "2026-08-13T16:40:33Z",
+ "n": 4,
+ "m": 8,
+ "B": 2,
+ "lo": 0,
+ "relation": "efx",
+ "restrictions": "rowcol",
+ "lex": true,
+ "build_s": 1.4423413276672363,
+ "clauses": 65536,
+ "status": "INFEASIBLE",
+ "wall": 32.816671491,
+ "conflicts": 6993,
+ "branches": 453867
+}
