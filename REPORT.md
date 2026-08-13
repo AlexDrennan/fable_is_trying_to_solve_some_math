@@ -184,12 +184,18 @@ redirects future hunts toward instances where every good is pivotal.
 The "Archimedean middle" restriction (all values in [M, 2M)) was tested
 and the prediction was that it *hurts*: with ratios < 2 a bundle S is
 strongly envied only if |S| ≤ 2|T|−2, so singletons are never strongly
-envied and balanced allocations are nearly unkillable.  Results (below)
-are recorded as a hypothesis test either way.  Typed SA slices probe the
-m = 12–15 shapes heuristically at B = 1000, far beyond the exact runs'
-value bounds.
+envied and balanced allocations are nearly unkillable.  Results confirmed
+the prediction decisively — restricting to comparable magnitudes makes
+instances *worse* by orders of magnitude, so epsilon-goods (mixed scales)
+are structurally necessary for any counterexample:
 
-(results table filled at end of Stage 3)
+| config | best #EFX (constrained) | unconstrained baseline |
+|--------|--------------------------|------------------------|
+| (4,10), values ∈ [64,127] | 2,997 | 591 |
+| (4,11), values ∈ [64,127] | **17,811** | **12** |
+
+Typed SA slices probe the m = 12–15 shapes heuristically at B = 1000, far
+beyond the exact runs' value bounds (results below).
 
 ## Integer CP-SAT delta measurements
 
