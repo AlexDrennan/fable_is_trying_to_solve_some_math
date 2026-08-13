@@ -96,3 +96,104 @@ CEGAR ladder on (4,8)–(4,10); [1,B] all-positive hunt configs plus the
 support-≥4 restriction (proof in `efx/encode.py`); intensification around
 archived near-misses; porting the arXiv:2604.18216 counterexample's
 combinatorial skeleton into additive gadget families.
+
+---
+
+# Campaign 2 (same date, ~3h): real-valued tower, typed shapes, rigidity
+
+Motivated by the observation that EFX existence is *provable* in the
+non-Archimedean (lexicographic) corner of additive valuations, campaign 2
+(a) removes the value-bound caveat from certificates by working over the
+reals, (b) reaches m = 12–15 exactly through a typed-goods collapse, and
+(c) probes the "Archimedean middle" where any counterexample must live.
+
+**Definitional footnote for every claim below**: EFX with respect to
+*positively-valued* goods (the site's definition, `verifier.c` header).
+Under the any-good variant (EFX0) the col-nonzero discharge would be
+unsound.
+
+## A. Real-valued certificates (QF_LRA, z3 + cvc5 on committed .smt2 files)
+
+Encoding: `efx/smt_encode.py` emits SMT-LIB2 text directly (row sums
+normalized to 1 — per-row scaling is a symmetry; positivity skeleton as
+biconditionals; monotone implication families entailed by the verifier's
+pruning lemma; non-strict double-lex).  Gates before any run: both solvers
+UNSAT on (2,4); survivor-drop, EF-SAT and fixed-V mutation tests; a
+structural checker that re-derives assertion counts and rebuilds 20 random
+clauses literal-by-literal.  UNSAT here means **no counterexample over the
+nonnegative REALS at that size** — no bound on values at all.  WLOG
+discharges are internal to the tower: col-nonzero at (n,m) via the (n,m−1)
+rung, zero rows via the (n−1,m) rung; bases m ≤ n by the size-≤1-bundle
+lemma.
+
+| n | m | z3 | cvc5 | meaning |
+|---|---|----|------|---------|
+| 2 | 4..6 | UNSAT 0.03–2.6 s | UNSAT | Plaut–Roughgarden n=2, reproduced over ℝ |
+| 3 | 4..6 | UNSAT 0.1–88 s | UNSAT | CGM/Mahara rungs over ℝ |
+| 4 | 6 | **UNSAT 73 s** | **UNSAT 391 s** | m = n+2 for four agents over ℝ, self-contained |
+| 4 | 7 | (pending) | (pending) | m = n+3 (Mahara-bound analogue) over ℝ |
+
+Measured engine facts: default z3 tactics stall even on (3,6); the working
+configuration is `smt.arith.solver=2` + the positivity skeleton + monotone
+families.  CEGAR-ing the universal side does not help UNSAT (the theory
+search, not clause volume, is the bottleneck).  The committed
+`efx/smt/efx_4x8.smt2` is the overnight target (~10 h+ extrapolated).
+
+## B. Typed-goods certificates (count-matrix collapse, CP-SAT)
+
+Goods of one type are identical columns; EFX status depends only on the
+count matrix, so "no EFX allocation" is decided over
+Π_k C(c_k+n−1, n−1) count matrices instead of n^m allocations
+(`efx/typed.py`; agreement with the flat C verifier proved on 41 random
+shapes via the exact multinomial-weighted count identity, fixed-W
+consistency 6/6).  Scope: each certificate covers exactly the instances
+whose column multiset is the stated shape, all types/rows positively
+valued.  All 13 shapes ran UNSAT:
+
+| n | shape (m) | values | wall |
+|---|-----------|--------|------|
+| 4 | 3+3+3 (9) | 0..3 | 2.1 s |
+| 4 | 4+4+4 (12) | 0..3 / 0..5 / **0..9** | 0.2 / 0.1 / 0.4 s |
+| 4 | 5+5+5 (**15**) | 0..2 / 0..3 | 82 / 116 s |
+| 4 | 6+3+3 (12) | 0..3 | 19 s |
+| 4 | 5+4+3 (12) | 0..3 | 28 s |
+| 4 | 3+3+3+3 (12) | 0..3 | 115 s |
+| 4 | 2+2+2+2+2 (10) | 0..3 | 94 s |
+| 5 | 3+3+3 (9) | 0..2 | 3.5 s |
+| 5 | 4+4+4 (12) | 0..2 | 26 s |
+| 6 | **4+3+3 (10 = n+4)** | 0..2 | 63 s |
+
+The 3-type anatomy of the 2026 additive-chores counterexample does not
+transplant to goods at any of these sizes/bounds, including the m = n+4
+frontier for six agents — a size where the flat encoding (6^10 clauses)
+is unthinkable.
+
+## C. Local rigidity of the best near-miss
+
+Ball-CEGAR (`efx/polish.py`) around the (4,11) near-miss V* (12 EFX
+survivors, all slack 1; survivors = 3 rotation patterns × 4 free placements
+of the epsilon-good g0): at lattice refinements ×10 and ×100 and L∞ radii
+up to ~10% per entry, CP-SAT proves **no integer matrix in the ball kills
+even the 12 known survivors** (INFEASIBLE on the kill-clause subset ⇒
+certificate).  The neighborhood is locked by the epsilon-good rotation
+family — the classic "one nearly-irrelevant good" degree of freedom — which
+redirects future hunts toward instances where every good is pivotal.
+
+## D. Hypothesis tests (annealing)
+
+The "Archimedean middle" restriction (all values in [M, 2M)) was tested
+and the prediction was that it *hurts*: with ratios < 2 a bundle S is
+strongly envied only if |S| ≤ 2|T|−2, so singletons are never strongly
+envied and balanced allocations are nearly unkillable.  Results (below)
+are recorded as a hypothesis test either way.  Typed SA slices probe the
+m = 12–15 shapes heuristically at B = 1000, far beyond the exact runs'
+value bounds.
+
+(results table filled at end of Stage 3)
+
+## Integer CP-SAT delta measurements
+
+The positivity skeleton + monotone families — decisive over the reals —
+slow the *integer* CP-SAT encoder ~4× ((4,7) B=2: 5.4→25 s; (4,8) B=2:
+33→140 s), so they stay flag-gated off for integer runs.  The support-≥4
+lemma joined the (4,8) B=3 integer attempt instead (run `frontier_4x8_B3_support4`).

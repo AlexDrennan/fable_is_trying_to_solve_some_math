@@ -122,7 +122,8 @@ def save_near_miss(tag, V, r, evals):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--n", type=int, required=True)
-    ap.add_argument("--m", type=int, required=True)
+    ap.add_argument("--m", type=int, default=None,
+                    help="goods count (flat mode); ignored with --types")
     ap.add_argument("--B", type=int, default=1000)
     ap.add_argument("--lo", type=int, default=0,
                     help="lower bound for values (Archimedean-middle runs)")
@@ -141,6 +142,8 @@ def main():
                        f"sa_typed_{args.n}x{'-'.join(map(str, TYPES))}_s{args.seed}")
     rng = random.Random(args.seed)
     n, B = args.n, args.B
+    if TYPES is None and args.m is None:
+        ap.error("--m is required without --types")
     m = len(TYPES) if TYPES else args.m   # state width (t in typed mode)
     seed_V = None
     if args.init_file:
