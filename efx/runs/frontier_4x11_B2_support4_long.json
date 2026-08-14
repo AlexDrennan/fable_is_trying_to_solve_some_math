@@ -1,0 +1,9 @@
+{
+ "tag": "frontier_4x11_B2_support4_long",
+ "n": 4,
+ "m": 11,
+ "B": 2,
+ "status": "OOM",
+ "note": "workers=3 exceeded 15GB after 67s build; retried with workers=1 as _w1",
+ "ts": "2026-08-14T11:03:56Z"
+}
