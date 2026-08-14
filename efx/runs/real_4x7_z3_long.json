@@ -1,0 +1,13 @@
+{
+ "tag": "real_4x7_z3_long",
+ "git_sha": "f4c0088b70bf0470e2a5a7e5faef2abf81af9e92",
+ "ts": "2026-08-14T10:44:42Z",
+ "n": 4,
+ "m": 7,
+ "file": "/home/user/fable_is_trying_to_solve_some_math/efx/smt/efx_4x7.smt2",
+ "solver": "z3-arith2",
+ "status": "unknown",
+ "wall": 18002.949994802475,
+ "conflicts": 3688201,
+ "decisions": 5784937
+}

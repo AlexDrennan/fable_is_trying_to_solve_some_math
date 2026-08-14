@@ -131,7 +131,7 @@ lemma.
 | 2 | 4..6 | UNSAT 0.03–2.6 s | UNSAT | Plaut–Roughgarden n=2, reproduced over ℝ |
 | 3 | 4..6 | UNSAT 0.1–88 s | UNSAT | CGM/Mahara rungs over ℝ |
 | 4 | 6 | **UNSAT 73 s** | **UNSAT 391 s** | m = n+2 for four agents over ℝ, self-contained |
-| 4 | 7 | UNKNOWN at 3000 s (224k conflicts) | UNKNOWN (cut past cap) | m = n+3 over ℝ — overnight target |
+| 4 | 7 | UNKNOWN at 18,000 s (3.69M conflicts) | UNKNOWN | m = n+3 over ℝ resists 5 h — the real-valued tower currently tops out at (4,6) |
 
 Measured engine facts: default z3 tactics stall even on (3,6); the working
 configuration is `smt.arith.solver=2` + the positivity skeleton + monotone
