@@ -54,7 +54,7 @@ agent/good relabeling.
 | 4 | 7 | 0..2 | UNSAT (control, m=n+3) | 5.4 s | `preflight_4x7_B2` |
 | 4 | 8 | 0..2 | **UNSAT — new certificate** | 33 s | `frontier_4x8_B2` |
 | 4 | 8 | 0..3 | UNKNOWN at 600 s; **UNSAT in campaign 2** (support-≥4 lemma added, 1.91M conflicts) | 5272 s | `frontier_4x8_B3_support4_long` |
-| 4 | 9 | 0..2 | **UNKNOWN** at 300 s cap | 300 s | `frontier_4x9_B2` |
+| 4 | 9 | 0..2 | UNKNOWN in campaign 1; **UNSAT in campaign 2** (support-≥4) — m = n+5, the submodular-counterexample size class, excluded for additive 3-valued | 311 s | `frontier_4x9_B2_support4_long` |
 
 (4,8) is the first size not covered by any existence theorem (m = n+4), and
 values {0,1,2} are outside the bivalued existence theorem, so the B=2 row is
