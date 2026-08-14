@@ -1,0 +1,10 @@
+{
+ "tag": "real_4x7_cvc5_long",
+ "n": 4,
+ "m": 7,
+ "solver": "cvc5",
+ "status": "unknown",
+ "wall": 18100,
+ "note": "external 5h timeout fired (cvc5 tlimit ineffective on this formula)",
+ "ts": "2026-08-14T10:46:28Z"
+}
