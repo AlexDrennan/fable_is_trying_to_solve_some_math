@@ -4,6 +4,6 @@
  "m": 11,
  "B": 2,
  "status": "OOM",
- "note": "workers=3 exceeded 15GB after 67s build; retried with workers=1 as _w1",
+ "note": "workers=3 AND workers=1 both OOM-killed past 15GB (CP-SAT presolve expansion); eager encoding infeasible on this box at m=11 \u2014 switched to CEGAR",
  "ts": "2026-08-14T11:03:56Z"
 }
