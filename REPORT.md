@@ -57,6 +57,7 @@ agent/good relabeling.
 | 4 | 9 | 0..2 | UNKNOWN in campaign 1; **UNSAT in campaign 2** (support-≥4) — m = n+5, the submodular-counterexample size class, excluded for additive 3-valued | 311 s | `frontier_4x9_B2_support4_long` |
 | 4 | 9 | 0..3 | UNKNOWN at 2.5 h (1.02M conflicts) | 9000 s | `frontier_4x9_B3_support4_long` |
 | 4 | 10 | 0..2 | **UNSAT** (support-≥4; 1.05M-clause eager model) — 3-valued now excluded for all of m = 8, 9, 10 | 3783 s | `frontier_4x10_B2_support4_long` |
+| 4 | 11 | 0..2 | out of reach on this box: eager OOMs past 15 GB (twice), CEGAR's first 5k-clause subproblem exceeds its iteration cap | — | `frontier_4x11_B2_*` |
 
 (4,8) is the first size not covered by any existence theorem (m = n+4), and
 values {0,1,2} are outside the bivalued existence theorem, so the B=2 row is
@@ -214,9 +215,14 @@ methods cannot touch; a local rigidity certificate around the best known
 near-miss; and two falsified hunt heuristics that positively localize
 where a counterexample must live if it exists: mixed value scales
 (epsilon-goods essential), many distinct column types, every good
-pivotal.  Overnight targets, in order: `efx/smt/efx_4x7.smt2` (z3,
-several hours), `frontier_4x8_B3_support4` config (CP-SAT, now
-conflict-active), `efx/smt/efx_4x8.smt2`.
+pivotal.  The overnight extension then ran to the box's limits: (4,8) B=3 UNSAT
+(88 min), (4,9) B=2 UNSAT (311 s), (4,10) B=2 UNSAT (63 min) — the
+**3-valued class is now excluded for every m from 8 through 10**, and the
+4-valued class at m = 8 — while (4,7) over the reals resisted 5 h of both
+solvers and (4,11) B=2 exceeded 15 GB (eager) / its CEGAR iteration caps.
+Remaining machine targets, hardware permitting: `efx/smt/efx_4x7.smt2`
+(z3, >5 h or a stronger box), (4,9) B=3 (>2.5 h), (4,11) B=2 (needs
+~64 GB for eager or hours-long CEGAR iterations), `efx/smt/efx_4x8.smt2`.
 
 ## Integer CP-SAT delta measurements
 
